@@ -1,21 +1,18 @@
+import os
 import psycopg
 from psycopg import Connection
 from contextlib import contextmanager
-import os
-from dotenv import load_dotenv
+from psycopg.rows import dict_row
 
-# Load environment variables
+# Use DATABASE_URL from environment variables
+DATABASE_URL = os.environ.get("DATABASE_URL")
 
-DB_CONFIG = {
-    "host": "localhost",
-    "port": 5433,
-    "dbname": "project",
-    "user": "yash"
-}
+if not DATABASE_URL:
+    raise ValueError("DATABASE_URL environment variable is not set")
 
 @contextmanager
 def get_connection() -> Connection:
-    conn = psycopg.connect(**DB_CONFIG)
+    conn = psycopg.connect(DATABASE_URL, row_factory=dict_row)
     try:
         yield conn
     finally:
