@@ -1,7 +1,3 @@
-from crypt import methods
-from curses import flash
-import email
-from unicodedata import name
 from flask import Flask, render_template, request, redirect, url_for, flash, get_flashed_messages
 from db1 import execute_query
 import time
